@@ -8,7 +8,7 @@ const resolveNestedSelector = require('postcss-resolve-nested-selector');
 
 const isStandardSyntaxRule = require('./utils/isStandardSyntaxRule');
 const isStandardSyntaxSelector = require('./utils/isStandardSyntaxSelector');
-const { isString, isRegExp, isBoolean } = require('./utils/validateTypes');
+const { isString, isRegExp } = require('./utils/validateTypes');
 const { report, validateOptions, ruleMessages } = stylelint.utils;
 
 const { name: ruleName } = require('./package.json');
