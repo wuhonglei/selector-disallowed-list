@@ -1,0 +1,20 @@
+{
+  "name": "@stylelint/selector-disallowed-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "normalize-selector": "^0.2.0",
+    "postcss-resolve-nested-selector": "^0.1.1",
+    "stylelint": "^13.13.1"
+  },
+  "devDependencies": {
+    "jest-preset-stylelint": "^5.0.3"
+  }
+}
