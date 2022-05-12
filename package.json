@@ -11,7 +11,8 @@
     "selector-disallowed-list",
     "nested selector"
   ],
-  "author": "",
+  "author": "wuhonglei",
+  "email": "1017368065@qq.com",
   "license": "ISC",
   "dependencies": {
     "normalize-selector": "^0.2.0",
