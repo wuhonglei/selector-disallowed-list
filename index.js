@@ -14,7 +14,7 @@ const { report, validateOptions, ruleMessages } = stylelint.utils;
 const { name: ruleName } = require('./package.json');
 
 const messages = ruleMessages(ruleName, {
-  rejected: (selector) => `Unexpected selector "${selector}"`
+  rejected: (selector) => `Unexpected AdBlock selector "${selector}"`
 });
 
 function rule(pattern) {
