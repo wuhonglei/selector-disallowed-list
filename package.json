@@ -1,12 +1,16 @@
 {
-  "name": "@stylelint/selector-disallowed-list",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@wuhonglei/selector-disallowed-list",
+  "version": "1.0.4",
+  "description": "stylelint plugin to disable nested or normal selectors list",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": [
+    "stylelint-plugin",
+    "selector-disallowed-list",
+    "nested selector"
+  ],
   "author": "",
   "license": "ISC",
   "dependencies": {

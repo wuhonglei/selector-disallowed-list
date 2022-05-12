@@ -8,7 +8,6 @@ const resolveNestedSelector = require('postcss-resolve-nested-selector');
 
 const isStandardSyntaxRule = require('./utils/isStandardSyntaxRule');
 const isStandardSyntaxSelector = require('./utils/isStandardSyntaxSelector');
-const hasInterpolatingAmpersand = require('./utils/hasInterpolatingAmpersand');
 const { isString, isRegExp, isBoolean } = require('./utils/validateTypes');
 const { report, validateOptions, ruleMessages } = stylelint.utils;
 
@@ -18,32 +17,18 @@ const messages = ruleMessages(ruleName, {
   rejected: (selector) => `Unexpected selector "${selector}"`
 });
 
-function rule(pattern, options) {
+function rule(pattern) {
   const list = [].concat(pattern);
 
   return (root, result) => {
-    const validOptions = validateOptions(
-      result,
-      ruleName,
-      {
-        actual: list,
-        possible: [isRegExp, isString]
-      },
-      {
-        actual: options,
-        possible: {
-          resolveNestedSelectors: isBoolean
-        },
-        optional: true
-      }
-    );
+    const validOptions = validateOptions(result, ruleName, {
+      actual: list,
+      possible: [isRegExp, isString]
+    });
 
     if (!validOptions) {
       return;
     }
-
-    const shouldResolveNestedSelectors =
-      options && options.resolveNestedSelectors;
 
     root.walkRules((ruleNode) => {
       const selector = ruleNode.selector;
@@ -53,7 +38,7 @@ function rule(pattern, options) {
       }
 
       // Only bother resolving selectors that have an interpolating &
-      if (shouldResolveNestedSelectors && hasInterpolatingAmpersand(selector)) {
+      if (hasInterpolatingAmpersand(selector)) {
         resolveNestedSelector(selector, ruleNode).forEach((nestedSelector) => {
           if (!isStandardSyntaxSelector(nestedSelector)) {
             return;
@@ -74,7 +59,7 @@ function rule(pattern, options) {
       report({
         result,
         ruleName,
-        message: messages.expected(value, pattern),
+        message: messages.rejected(ruleNode.selector),
         node: ruleNode
       });
     }
@@ -111,6 +96,8 @@ function matchesStringOrRegExp(selector, list) {
   return list.some((comparison) => newSelector.endsWith(comparison));
 }
 
+rule.primaryOptionArray = true;
 rule.ruleName = ruleName;
 rule.messages = messages;
-module.exports = rule;
+
+module.exports = stylelint.createPlugin(ruleName, rule);
