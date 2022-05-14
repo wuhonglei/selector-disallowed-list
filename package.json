@@ -1,10 +1,10 @@
 {
   "name": "@shopee-ads/selector-disallowed-list",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "stylelint plugin to disable nested or normal selectors list",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest --coverage"
   },
   "keywords": [
     "stylelint-plugin",
@@ -16,8 +16,9 @@
   "license": "ISC",
   "dependencies": {
     "normalize-selector": "^0.2.0",
+    "postcss-less": "^6.0.0",
     "postcss-resolve-nested-selector": "^0.1.1",
-    "stylelint": "^13.13.1"
+    "stylelint": ">=11.1.1"
   },
   "devDependencies": {
     "jest-preset-stylelint": "^5.0.3"
