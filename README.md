@@ -98,7 +98,3 @@ The following patterns are _not_ considered problems:
   &__B {} /* resolved to ".A__B" */
 }
 ```
-
-## TODO
-
-- [ ] 1. 支持正则
