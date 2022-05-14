@@ -1,4 +1,5 @@
 'use strict';
+/* istanbul ignore file */
 
 /**
  * Checks if the value is a boolean or a Boolean object.

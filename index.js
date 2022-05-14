@@ -31,14 +31,11 @@ function rule(pattern) {
     }
 
     root.walkRules((ruleNode) => {
-      const selector = ruleNode.selector;
-
       if (!isStandardSyntaxRule(ruleNode)) {
         return;
       }
-
-      // Only bother resolving selectors that have an interpolating &
-      if (hasInterpolatingAmpersand(selector)) {
+      // when use .foo,.bar{}, the selectors will be ['.foo', '.bar']
+      ruleNode.selectors.forEach((selector) => {
         resolveNestedSelector(selector, ruleNode).forEach((nestedSelector) => {
           if (!isStandardSyntaxSelector(nestedSelector)) {
             return;
@@ -46,16 +43,13 @@ function rule(pattern) {
 
           checkSelector(nestedSelector, ruleNode);
         });
-      } else {
-        checkSelector(selector, ruleNode);
-      }
+      });
     });
 
     function checkSelector(fullSelector, ruleNode) {
       if (!matchesStringOrRegExp(fullSelector, list)) {
         return;
       }
-
       report({
         result,
         ruleName,
@@ -66,34 +60,20 @@ function rule(pattern) {
   };
 }
 
-// An "interpolating ampersand" means an "&" used to interpolate
-// within another simple selector, rather than an "&" that
-// stands on its own as a simple selector
-function hasInterpolatingAmpersand(selector) {
-  for (let i = 0, l = selector.length; i < l; i++) {
-    if (selector[i] !== '&') {
-      continue;
-    }
-
-    if (selector[i - 1] !== undefined && !isCombinator(selector[i - 1])) {
-      return true;
-    }
-
-    if (selector[i + 1] !== undefined && !isCombinator(selector[i + 1])) {
-      return true;
-    }
-  }
-
-  return false;
-}
-
-function isCombinator(x) {
-  return /[\s+>~]/.test(x);
-}
-
 function matchesStringOrRegExp(selector, list) {
   const newSelector = normalizeSelector(selector);
-  return list.some((comparison) => newSelector.endsWith(comparison));
+
+  return list.some((comparison) => {
+    if (isString(comparison)) {
+      return newSelector.endsWith(comparison);
+    }
+
+    if (isRegExp(comparison)) {
+      return comparison.test(newSelector);
+    }
+
+    return false;
+  });
 }
 
 rule.primaryOptionArray = true;
